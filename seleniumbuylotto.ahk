@@ -19,23 +19,28 @@ coordmode, pixel, screen
 
 IfWinNotExist,ahk_class Chrome_WidgetWin_1
 {
-
+FileGetVersion, Version_Chrome, C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+if(ErrorLevel=1)
+{
 	run, "C:\Program Files\Google\Chrome\Application\chrome.exe" "--remote-debugging-port=9222"
-	;run, "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "--remote-debugging-port=9222"
-	a=0
+}else{
+	run, "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "--remote-debugging-port=9222"
 }
-; 크롬 켜져있는지 확인 꺼져있으면 a변수에 0저장
+
+	on=0
+}
+; 크롬 켜져있는지 확인 꺼져있으면 on에 0저장
 
 IfWinExist,ahk_class Chrome_WidgetWin_1
 {
 	WinActivate,ahk_class Chrome_WidgetWin_1
 	send,^t
-	a=1
+	on=1
 }
 ; 크롬 켜져있어서 ctrl+t로 새탭열고 a변수에 1저장
 
 
-if(a=1)
+if(on=1)
 {
 	driver.switchtonextwindow()
 ;크롬이 켜져있기때문에 탭전환 셀리니움명령
